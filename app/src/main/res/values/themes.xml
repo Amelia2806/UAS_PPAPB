@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.UAS_PPAPB" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary Color -->
+         <item name="colorPrimary">#5A9AE7</item>
+        <!-- Second Color -->
+        <item name="colorSecondary">#70B7D3</item>
+        <!-- Status Bar Color -->
+        <item name="android:statusBarColor">@color/blueprim</item>
+    </style>
+
+    <style name="Theme.UAS_PPAPB" parent="Base.Theme.UAS_PPAPB" />
+    
+    <style name="App.Custom.Indiator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">#9C7FAEFF</item>
+    </style>
+</resources>

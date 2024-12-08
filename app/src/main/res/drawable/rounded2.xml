@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Membuat sudut melengkung -->
+    <corners android:radius="10dp" />
+
+    <!-- Memberikan garis luar berwarna merah -->
+    <stroke
+        android:color="#9E0809"
+    android:width="3dp" />
+</shape>
