@@ -1,4 +1,4 @@
-package com.example.uas_film
+package com.example.uas_ppapb
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -17,6 +17,7 @@ import com.example.uas_ppapb.database.Local
 import com.example.uas_ppapb.database.LocalDao
 import com.example.uas_ppapb.database.LocalRoomDatabase
 import com.example.uas_ppapb.databinding.FragmentHomeBinding
+import com.example.uas_ppapb.databinding.ItemFilmBinding
 import com.example.uas_pppb.model.FilmUserData
 import com.example.uas_pppb.network.ApiClient
 import com.google.firebase.auth.FirebaseAuth
@@ -68,7 +69,9 @@ class HomeFragment : Fragment() {
 
         // cek ketersediaan internet dan ambil data
         if (isInternetAvailable(requireActivity())) {
-            fetchData()
+//            fetchData()
+            fetchDataOffline()
+
             Toast.makeText(requireActivity(), "Establishing Connection", Toast.LENGTH_SHORT).show()
         }else{
             fetchDataOffline()
@@ -200,6 +203,8 @@ class HomeFragment : Fragment() {
                 )
                 itemList.add(local)
             }
+
+            System.out.println("offline data ======")
 
             // memberitahu adapter bahwa data telah berubah
             itemAdapter.notifyDataSetChanged()

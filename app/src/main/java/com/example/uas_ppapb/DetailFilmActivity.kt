@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import androidx.navigation.findNavController
-import com.example.uas_film.HomeFragment
+import com.example.uas_ppapb.HomeFragment
 import com.example.uas_ppapb.databinding.ActivityDetailFilmBinding
 
 // kelas `DetailFilmActivity` bertanggung jawab untuk menampilkan detail film ketika pengguna memilih suatu film
