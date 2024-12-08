@@ -41,6 +41,7 @@
 
   <!-- Content Section -->
   <androidx.core.widget.NestedScrollView
+      android:id="@+id/nestedScrollView"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -67,7 +68,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/rounded2"
             android:scaleType="fitXY"
-            android:src="@drawable/sherina"/>
+            android:src="@drawable/sherina" />
       </androidx.cardview.widget.CardView>
 
       <TextView
@@ -171,6 +172,7 @@
       <ScrollView
           android:layout_width="match_parent"
           android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -178,6 +180,7 @@
             android:paddingLeft="5dp"
             android:paddingTop="10dp"
             android:paddingRight="5dp">
+
           <TextView
               android:id="@+id/detailfilm"
               android:layout_width="match_parent"
@@ -189,18 +192,28 @@
       </ScrollView>
 
 
-      <androidx.appcompat.widget.AppCompatButton
-          android:id="@+id/gettiket"
-          android:layout_width="match_parent"
-          android:layout_height="60dp"
-          android:layout_centerHorizontal="true"
-          android:layout_marginTop="30dp"
-          android:background="@color/wine"
-          android:fontFamily="@font/mmedium"
-          android:text="Get Ticket"
-          android:textColor="@color/white"
-          android:textSize="20sp" />
+      <!--      <androidx.appcompat.widget.AppCompatButton-->
+      <!--          android:id="@+id/gettiket"-->
+      <!--          android:layout_width="match_parent"-->
+      <!--          android:layout_height="60dp"-->
+      <!--          android:layout_centerHorizontal="true"-->
+      <!--          android:layout_marginTop="30dp"-->
+      <!--          android:background="@color/wine"-->
+      <!--          android:fontFamily="@font/mmedium"-->
+      <!--          android:text="Get Ticket"-->
+      <!--          android:textColor="@color/white"-->
+      <!--          android:textSize="20sp" />-->
 
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>
+
+  <ImageButton
+      android:id="@+id/imageButtonFavorite"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="?attr/selectableItemBackgroundBorderless"
+      android:contentDescription="Favorite"
+      android:src="@drawable/baseline_favorite_border_24"
+      app:layout_anchor="@+id/nestedScrollView"
+      app:layout_anchorGravity="center" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

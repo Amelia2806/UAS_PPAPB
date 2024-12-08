@@ -69,8 +69,8 @@ class HomeFragment : Fragment() {
 
         // cek ketersediaan internet dan ambil data
         if (isInternetAvailable(requireActivity())) {
-//            fetchData()
-            fetchDataOffline()
+            fetchData()
+//            fetchDataOffline()
 
             Toast.makeText(requireActivity(), "Establishing Connection", Toast.LENGTH_SHORT).show()
         }else{
@@ -126,6 +126,21 @@ class HomeFragment : Fragment() {
 //                    recyclerView.adapter = response.body()?.let { PostAdapter(it) }
                     System.out.println("movies: =====");
                     System.out.println(response.body())
+
+                    response.body()?.forEach { filmUser ->
+                        val local = FilmUserData(
+                            _id = filmUser._id,
+                            title = filmUser.title,
+                            director = filmUser.director,
+                            durasi = filmUser.durasi,
+                            rating = filmUser.rating,
+                            sinopsis = filmUser.sinopsis,
+                            imageUrl = filmUser.imageUrl
+                        )
+                        itemList.add(local)
+                    }
+
+                    itemAdapter.notifyDataSetChanged()
                 } else {
                     System.out.println("failed not isSuccessful");
 
@@ -135,52 +150,53 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<List<FilmUserData>>, t: Throwable) {
                 System.out.println("failed onFailure");
+                System.out.println("Error: ${t.message}");
 
 //                Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         });
 
-        // mengosongkan tabel lokal
-        truncateTable()
-
-        // mendapatkan referensi database firebase
-        database = FirebaseDatabase.getInstance().getReference("Film")
-        database.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                // mengososngkan daftar film
-                itemList.clear()
-
-                // mengambil data dari firebase
-                for (dataSnapshot in snapshot.children) {
-                    val item = dataSnapshot.getValue(FilmUserData::class.java)
-                    if (item != null) {
-
-                        // menambahkan data ke daftar film dan lokal
-                        itemList.add(item)
-                        val local = Local(
-                            judulFilm = item.title!!,
-                            directorFilm = item.director!!,
-                            durasiFilm = item.durasi!!,
-                            ratingFilm = item.rating!!,
-                            sinopsisFilm = item.sinopsis!!,
-                            imgFilm = item.imageUrl!!
-                        )
-                        insert(local)
-                    }
-                }
-                Log.d("NEWWW","${itemList.toString()}")
-                Log.d("NEWWW","${itemList.toString()}")
-                Log.d("NEWWW","${itemList.toString()}")
-
-                // memberitahu adapter bahwa data telah berubah agar dia ikut berubah
-                itemAdapter.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // mengatasi kesalahan jika diperlukan
-            }
-        })
+//        // mengosongkan tabel lokal
+//        truncateTable()
+//
+//        // mendapatkan referensi database firebase
+//        database = FirebaseDatabase.getInstance().getReference("Film")
+//        database.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//
+//                // mengososngkan daftar film
+//                itemList.clear()
+//
+//                // mengambil data dari firebase
+//                for (dataSnapshot in snapshot.children) {
+//                    val item = dataSnapshot.getValue(FilmUserData::class.java)
+//                    if (item != null) {
+//
+//                        // menambahkan data ke daftar film dan lokal
+//                        itemList.add(item)
+//                        val local = Local(
+//                            judulFilm = item.title!!,
+//                            directorFilm = item.director!!,
+//                            durasiFilm = item.durasi!!,
+//                            ratingFilm = item.rating!!,
+//                            sinopsisFilm = item.sinopsis!!,
+//                            imgFilm = item.imageUrl!!
+//                        )
+//                        insert(local)
+//                    }
+//                }
+//                Log.d("NEWWW","${itemList.toString()}")
+//                Log.d("NEWWW","${itemList.toString()}")
+//                Log.d("NEWWW","${itemList.toString()}")
+//
+//                // memberitahu adapter bahwa data telah berubah agar dia ikut berubah
+//                itemAdapter.notifyDataSetChanged()
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                // mengatasi kesalahan jika diperlukan
+//            }
+//        })
     }
 
     // fungsi untuk mengambil data dari database lokal jika tidak ada koneksi internet
@@ -203,9 +219,6 @@ class HomeFragment : Fragment() {
                 )
                 itemList.add(local)
             }
-
-            System.out.println("offline data ======")
-
             // memberitahu adapter bahwa data telah berubah
             itemAdapter.notifyDataSetChanged()
         }

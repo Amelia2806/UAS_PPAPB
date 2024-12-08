@@ -1,13 +1,11 @@
-package com.example.uas_ppapb.model;
+package com.example.uas_pppb.model
 
-// Kelas `FilmAdminData` merepresentasikan data film pada bagian admin
-// Implementasi Serializable memungkinkan objek dari kelas ini dapat dikirimkan antar aktivitas menggunakan Intent
-// Setiap objek `FilmAdminData` memiliki properti yang mencakup informasi judul, sutradara, durasi, rating, sinopsis, dan URL gambar film
-
-class FilmAdminData(
-    val title : String?= null,
-    val director : String?= null,
-    val durasi : String?= null,
-    var rating : String?= null,
-    val sinopsis : String?= null,
-    val imageUrl : String?= null)
+data class FilmAdminData(
+    val _id: String? = null,                // ID unik dari setiap film
+    val title: String? = null,           // Judul film
+    val director: String? = null,        // Sutradara film
+    val durasi: String? = null,          // Durasi film
+    val rating: String? = null,          // Rating film
+    val sinopsis: String? = null,        // Sinopsis film
+    val imageUrl: String? = null         // URL gambar poster film
+)
