@@ -1,4 +1,4 @@
-package com.example.uas_pppb.model
+package com.example.uas_ppapb.model
 
 data class FilmUserData(
     val _id: String? = null,                // ID unik dari setiap film

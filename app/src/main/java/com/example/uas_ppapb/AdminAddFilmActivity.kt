@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.uas_ppapb.databinding.ActivityAdminAddFilmBinding
-import com.example.uas_ppapb.model.FilmAdminData
+import com.example.uas_ppapb.model.FilmUserData
 import com.example.uas_pppb.network.ApiClient
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -78,7 +78,7 @@ class AdminAddFilmActivity : AppCompatActivity() {
         if (title.isNotEmpty() && director.isNotEmpty() && durasi.isNotEmpty() && rating.isNotEmpty() && sinopsis.isNotEmpty()) {
             // jika semua kolom formulir diisi dan gambar dipilih, unggah gambar ke Firebase Storage
 
-            val item = FilmAdminData(title, director, durasi, rating, sinopsis, "imageUrl.toString()")
+            val item = FilmUserData(title, director, durasi, rating, sinopsis, "imageUrl.toString()")
 
             System.out.println("item ========")
             System.out.println(item)

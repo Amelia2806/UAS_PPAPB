@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.uas_ppapb.database.LocalDao
 import com.example.uas_ppapb.database.LocalRoomDatabase
 import com.example.uas_ppapb.databinding.ActivityHomeAdminBinding
-import com.example.uas_pppb.model.FilmAdminData
-import com.example.uas_pppb.model.FilmUserData
+import com.example.uas_ppapb.model.FilmUserData
 import com.example.uas_pppb.network.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,7 +24,7 @@ class HomeAdminActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeAdminBinding
     private lateinit var itemAdapter: FilmAdminAdapter
-    private lateinit var itemList: ArrayList<FilmAdminData>
+    private lateinit var itemList: ArrayList<FilmUserData>
     private lateinit var recyclerViewItem: RecyclerView
 
     private lateinit var mLocalDao: LocalDao
@@ -74,32 +73,68 @@ class HomeAdminActivity : AppCompatActivity() {
     }
 
     private fun fetchDataFromServer() {
+//        ApiClient.api.getMovies().enqueue(object : Callback<List<FilmUserData>> {
+//            override fun onResponse(call: Call<List<FilmUserData>>, response: Response<List<FilmAdminData>>) {
+//                if (response.isSuccessful) {
+//                    Log.d("API_SUCCESS", "Data successfully fetched")
+//                    itemList.clear()
+//                    response.body()?.forEach { movie ->
+//                        itemList.add(movie)
+//                    }
+//                    runOnUiThread {
+//                        itemAdapter.notifyDataSetChanged()
+//                    }
+//                } else {
+//                    Log.e("API_ERROR", "Server error: ${response.code()}")
+//                    runOnUiThread {
+//                        Toast.makeText(this@HomeAdminActivity, "Failed to load server data", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<List<FilmAdminData>>, t: Throwable) {
+//                Log.e("API_FAILURE", "Network call failed", t)
+//                runOnUiThread {
+//                    Toast.makeText(this@HomeAdminActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        })
+
         ApiClient.api.getMovies().enqueue(object : Callback<List<FilmUserData>> {
-            override fun onResponse(call: Call<List<FilmUserData>>, response: Response<List<FilmAdminData>>) {
+            override fun onResponse(call: Call<List<FilmUserData>>, response: Response<List<FilmUserData>>) {
                 if (response.isSuccessful) {
-                    Log.d("API_SUCCESS", "Data successfully fetched")
-                    itemList.clear()
-                    response.body()?.forEach { movie ->
-                        itemList.add(movie)
+//                    recyclerView.adapter = response.body()?.let { PostAdapter(it) }
+                    System.out.println("movies: =====");
+                    System.out.println(response.body())
+
+                    response.body()?.forEach { filmUser ->
+                        val local = FilmUserData(
+                            _id = filmUser._id,
+                            title = filmUser.title,
+                            director = filmUser.director,
+                            durasi = filmUser.durasi,
+                            rating = filmUser.rating,
+                            sinopsis = filmUser.sinopsis,
+                            imageUrl = filmUser.imageUrl
+                        )
+                        itemList.add(local)
                     }
-                    runOnUiThread {
-                        itemAdapter.notifyDataSetChanged()
-                    }
+
+                    itemAdapter.notifyDataSetChanged()
                 } else {
-                    Log.e("API_ERROR", "Server error: ${response.code()}")
-                    runOnUiThread {
-                        Toast.makeText(this@HomeAdminActivity, "Failed to load server data", Toast.LENGTH_SHORT).show()
-                    }
+                    System.out.println("failed not isSuccessful");
+
+//                    Toast.makeText(this@MainActivity, "Failed to load posts", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<List<FilmAdminData>>, t: Throwable) {
-                Log.e("API_FAILURE", "Network call failed", t)
-                runOnUiThread {
-                    Toast.makeText(this@HomeAdminActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
+            override fun onFailure(call: Call<List<FilmUserData>>, t: Throwable) {
+                System.out.println("failed onFailure");
+                System.out.println("Error: ${t.message}");
+
+//                Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
-        })
+        });
     }
 
     private fun fetchDataOffline() {
@@ -108,7 +143,7 @@ class HomeAdminActivity : AppCompatActivity() {
                 Log.d("LOCAL_DB", "Loading offline data...")
                 itemList.clear()
                 movies.forEach { movie ->
-                    val localFilm = FilmAdminData(
+                    val localFilm = FilmUserData(
                         title = movie.judulFilm,
                         director = movie.directorFilm,
                         durasi = movie.durasiFilm,

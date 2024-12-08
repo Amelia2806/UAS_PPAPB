@@ -10,13 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.uas_ppapb.model.FilmAdminData
+import com.example.uas_ppapb.model.FilmUserData
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
 // kelas `FilmAdminAdapter` adalah adaptor RecyclerView untuk tampilan daftar film pada bagian admin
 // adaptor ini mengelola item-item dalam daftar dan mengatur tampilan masing-masing item
-class FilmAdminAdapter(private val filmAdminList: ArrayList<FilmAdminData>) : RecyclerView.Adapter<FilmAdminAdapter.FilmAdminViewHolder>() {
+class FilmAdminAdapter(private val filmAdminList: ArrayList<FilmUserData>) : RecyclerView.Adapter<FilmAdminAdapter.FilmAdminViewHolder>() {
 
     // kelas `FilmAdminViewHolder` merepresentasikan tampilan item pada daftar film admin
     class FilmAdminViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

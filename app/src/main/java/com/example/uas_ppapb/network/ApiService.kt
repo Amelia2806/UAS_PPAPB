@@ -1,7 +1,6 @@
 package com.example.uas_pppb.network
 
-import com.example.uas_ppapb.model.FilmAdminData
-import com.example.uas_pppb.model.FilmUserData
+import com.example.uas_ppapb.model.FilmUserData
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,5 +13,5 @@ interface ApiService {
     fun getMovies(): Call<List<FilmUserData>>
 
     @POST("LIcJU/movies")
-    fun createMovie(@Body movie: FilmAdminData): Call<Void>
+    suspend fun createMovie(@Body movie: FilmUserData): retrofit2.Response<Void>
 }

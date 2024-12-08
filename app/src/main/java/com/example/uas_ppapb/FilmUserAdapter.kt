@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.uas_pppb.model.FilmUserData
+import com.example.uas_ppapb.model.FilmUserData
 
 // adapter `FilmUserAdapter` digunakan untuk menghubungkan data film pada bagian pengguna (user) dengan tampilan RecyclerView
 // data film ditampilkan dalam item_film.xml, dan setiap item menampilkan judul dan gambar film
