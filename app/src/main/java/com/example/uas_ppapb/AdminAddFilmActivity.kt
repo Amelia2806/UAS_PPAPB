@@ -80,6 +80,10 @@ class AdminAddFilmActivity : AppCompatActivity() {
 
             val item = FilmUserData(title, director, durasi, rating, sinopsis, "imageUrl.toString()")
 
+            // TODO:
+            // - fix add button
+            // - adjust edit activity logic
+            // - change image url field to string
             System.out.println("item ========")
             System.out.println(item)
             CoroutineScope(Dispatchers.IO).launch {

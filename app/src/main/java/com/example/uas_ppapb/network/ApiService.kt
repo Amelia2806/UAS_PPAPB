@@ -3,6 +3,7 @@ package com.example.uas_pppb.network
 import com.example.uas_ppapb.model.FilmUserData
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -22,4 +23,7 @@ interface ApiService {
 
     @PUT("LIcJU/movies/{id}")
     suspend fun updateMovie(@Path("id") movieId: String, @Body movie: FilmUserData): retrofit2.Response<Void>
+
+    @DELETE("LIcJU/movies/{id}")
+    suspend fun deleteMovie(@Path("id") movieId: String): retrofit2.Response<Void>
 }
