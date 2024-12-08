@@ -8,7 +8,7 @@ import androidx.room.Room.databaseBuilder
 @Database(entities = [Local::class], version = 1, exportSchema = false)
 abstract class LocalRoomDatabase : RoomDatabase() {
     abstract fun localDao() : LocalDao?
-
+//lakjsdlkjasd
     companion object {
         @Volatile
         private var INSTANCE: LocalRoomDatabase? = null
