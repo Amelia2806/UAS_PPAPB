@@ -18,7 +18,6 @@ class AdminEditFilmActivity : AppCompatActivity() {
 
     // Data yang dikirim dari halaman sebelumnya
     private var movieId: String? = null
-    private var originalImageUrl: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +26,6 @@ class AdminEditFilmActivity : AppCompatActivity() {
 
         // Ambil data dari intent sebelumnya
         movieId = intent.getStringExtra("id")
-        originalImageUrl = intent.getStringExtra("imgUrl")
 
         // Isi data awal dari intent
         movieId=intent.getStringExtra("_id") //add_id
@@ -62,6 +60,7 @@ class AdminEditFilmActivity : AppCompatActivity() {
                 val updatedDurasi = binding.txtDurasiEdit.text.toString()
                 val updatedRating = binding.txtRatingEdit.text.toString()
                 val updatedSinopsis = binding.txtSinopsisEdit.text.toString()
+                val updatedImageUrl = binding.txtImageEdit.text.toString()
 
                 // Membuat data film baru
                 val filmData = FilmUserData(
@@ -71,14 +70,11 @@ class AdminEditFilmActivity : AppCompatActivity() {
                     durasi = updatedDurasi,
                     rating = updatedRating,
                     sinopsis = updatedSinopsis,
-                    imageUrl = originalImageUrl
+                    imageUrl = updatedImageUrl
                 )
 
                 // Memanggil API
                 val response = withContext(Dispatchers.IO) {
-                    System.out.println(movieId)
-                    System.out.println(filmData)
-                    System.out.println("-------------------")
                     ApiClient.api.updateMovie(movieId!!, filmData)
                 }
 
