@@ -1,4 +1,4 @@
-package com.example.uas_pppb.network
+package com.example.uas_pppab.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

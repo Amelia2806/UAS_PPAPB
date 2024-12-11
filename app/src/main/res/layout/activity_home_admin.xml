@@ -31,12 +31,12 @@
             android:textSize="22sp"/>
 
         <ImageView
-            android:id="@+id/button_back"
+            android:id="@+id/btn_logout"
             android:layout_width="30dp"
             android:layout_marginTop="12dp"
             android:layout_height="30dp"
             android:layout_marginLeft="75dp"
-            android:background="@drawable/baseline_logout_24" />
+            android:src="@drawable/baseline_logout_24" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -50,7 +50,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageButton
-        android:id="@+id/btnPlusAdmin"
+        android:id="@+id/btn_add"
         android:layout_width="80dp"
         android:layout_height="77dp"
         android:layout_gravity="end"

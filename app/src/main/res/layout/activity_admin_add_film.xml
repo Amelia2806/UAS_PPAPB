@@ -147,47 +147,25 @@
                 android:background="@drawable/rounded2"
                 android:fontFamily="@font/mmedium" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:text="Image :"
+                android:fontFamily="@font/mmedium"
+                android:textSize="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/adminListAddImage"
-                    android:layout_width="170dp"
-                    android:layout_height="170dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardUseCompatPadding="true">
-
-                    <ImageView
-                        android:id="@+id/imgViewAdd"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:background="@drawable/baseline_image_search_24"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <Button
-                    android:id="@+id/btn_choose_image"
-                    android:layout_width="160dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/mmedium"
-                    android:backgroundTint="@color/wine"
-                    android:drawablePadding="8dp"
-                    android:paddingStart="16dp"
-                    android:text="Choose Image" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/txt_Image"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:hint="ImageURL"
+                android:paddingLeft="20sp"
+                android:background="@drawable/rounded2"
+                android:fontFamily="@font/mmedium" />
 
             <Button
                 android:id="@+id/btn_add"
@@ -198,7 +176,7 @@
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/mmedium"
-                android:backgroundTint="@color/blueprim"
+                android:backgroundTint="@color/wine"
                 />
 
         </LinearLayout>

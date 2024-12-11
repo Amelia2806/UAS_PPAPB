@@ -19,7 +19,7 @@ import com.example.uas_ppapb.database.LocalRoomDatabase
 import com.example.uas_ppapb.databinding.FragmentHomeBinding
 import com.example.uas_ppapb.databinding.ItemFilmBinding
 import com.example.uas_ppapb.model.FilmUserData
-import com.example.uas_pppb.network.ApiClient
+import com.example.uas_pppab.network.ApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
