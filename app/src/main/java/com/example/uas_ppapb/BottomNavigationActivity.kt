@@ -25,11 +25,6 @@ class BottomNavigationActivity : AppCompatActivity() {
                     replaceFragment(HomeFragment())
                     true
                 }
-                R.id.nav_favorite -> {
-                    // memilih fragment FavoriteFragment ketika item Favorite dipilih
-                    replaceFragment(FavoriteFragment())
-                    true
-                }
                 R.id.nav_profile -> {
                     // memilih fragment ProfileFragment ketika item Profile dipilih
                     replaceFragment(ProfileFragment())

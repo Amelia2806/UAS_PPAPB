@@ -88,8 +88,10 @@ class FilmUserAdapter(
     // Fungsi untuk memeriksa apakah film sudah ada di favorit
     private fun isFavorite(_id: String?, callback: (Boolean) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-            val db = LocalRoomDatabase.getDatabase(context)?.localDao()
+            val db = LocalRoomDatabase.getDatabase(context)?.filmFavoriteDao()
             val isFav = db?.getFilmById(_id) != null
+            System.out.println("isFav=--------------")
+            System.out.println(isFav)
             withContext(Dispatchers.Main) {
                 callback(isFav)
             }
