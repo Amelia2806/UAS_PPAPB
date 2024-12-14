@@ -123,7 +123,6 @@ class HomeFragment : Fragment() {
         ApiClient.api.getMovies().enqueue(object : Callback<List<FilmUserData>> {
             override fun onResponse(call: Call<List<FilmUserData>>, response: Response<List<FilmUserData>>) {
                 if (response.isSuccessful) {
-//                    recyclerView.adapter = response.body()?.let { PostAdapter(it) }
                     System.out.println("movies: =====");
                     System.out.println(response.body())
 
@@ -144,7 +143,6 @@ class HomeFragment : Fragment() {
                 } else {
                     System.out.println("failed not isSuccessful");
 
-//                    Toast.makeText(this@MainActivity, "Failed to load posts", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -152,51 +150,9 @@ class HomeFragment : Fragment() {
                 System.out.println("failed onFailure");
                 System.out.println("Error: ${t.message}");
 
-//                Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         });
 
-//        // mengosongkan tabel lokal
-//        truncateTable()
-//
-//        // mendapatkan referensi database firebase
-//        database = FirebaseDatabase.getInstance().getReference("Film")
-//        database.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//
-//                // mengososngkan daftar film
-//                itemList.clear()
-//
-//                // mengambil data dari firebase
-//                for (dataSnapshot in snapshot.children) {
-//                    val item = dataSnapshot.getValue(FilmUserData::class.java)
-//                    if (item != null) {
-//
-//                        // menambahkan data ke daftar film dan lokal
-//                        itemList.add(item)
-//                        val local = Local(
-//                            judulFilm = item.title!!,
-//                            directorFilm = item.director!!,
-//                            durasiFilm = item.durasi!!,
-//                            ratingFilm = item.rating!!,
-//                            sinopsisFilm = item.sinopsis!!,
-//                            imgFilm = item.imageUrl!!
-//                        )
-//                        insert(local)
-//                    }
-//                }
-//                Log.d("NEWWW","${itemList.toString()}")
-//                Log.d("NEWWW","${itemList.toString()}")
-//                Log.d("NEWWW","${itemList.toString()}")
-//
-//                // memberitahu adapter bahwa data telah berubah agar dia ikut berubah
-//                itemAdapter.notifyDataSetChanged()
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                // mengatasi kesalahan jika diperlukan
-//            }
-//        })
     }
 
     // fungsi untuk mengambil data dari database lokal jika tidak ada koneksi internet
@@ -205,23 +161,6 @@ class HomeFragment : Fragment() {
         // mengosongkan daftar film
         itemList.clear()
 
-        // mengambil data dari database lokal menggunakan Room
-//        mLocalDao.allPostsLocal().observe(requireActivity()) {movies ->
-//            for (movie in movies){
-//                // menambahkan data ke daftar film
-//                val local = FilmUserData(
-//                    title = movie.judulFilm,
-//                    director = movie.directorFilm,
-//                    durasi = movie.durasiFilm,
-//                    rating = movie.ratingFilm,
-//                    sinopsis = movie.sinopsisFilm,
-//                    imageUrl = movie.imgFilm
-//                )
-//                itemList.add(local)
-//            }
-//            // memberitahu adapter bahwa data telah berubah
-//            itemAdapter.notifyDataSetChanged()
-//        }
     }
 
 }
