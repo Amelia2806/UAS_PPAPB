@@ -6,22 +6,26 @@ import android.os.Bundle
 import com.example.uas_ppapb.databinding.ActivityWelcomeBinding
 
 class WelcomeActivity : AppCompatActivity() {
-    // inisiasi binding
+    // Inisialisasi binding untuk mengikat elemen tata letak dengan view binding
     private lateinit var binding: ActivityWelcomeBinding
 
-    // memanggil aktivitas yang dibuat
+    // Metode yang dipanggil ketika aktivitas dibuat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Mengikat tampilan dengan tata letak menggunakan view binding
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
-        // menetapkan tampiplan ui untuk activity sesuai binding.root
+
+        // Menetapkan tampilan UI untuk aktivitas ini sesuai dengan layout dari binding.root
         setContentView(binding.root)
 
-        //fungsi onClick untuk tombol welcomeBtn
+        // Menambahkan fungsi click listener untuk tombol welcomeBtn
         binding.welcomeBtn.setOnClickListener {
-            //intent untuk memulai aktivitas tab_layout
+            // Membuat intent untuk berpindah ke aktivitas LoginRegisterActivity
             val intent = Intent(this, LoginRegisterActivity::class.java)
+
+            // Memulai aktivitas LoginRegisterActivity
             startActivity(intent)
         }
-
     }
 }

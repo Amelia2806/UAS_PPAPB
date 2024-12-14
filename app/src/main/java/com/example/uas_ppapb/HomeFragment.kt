@@ -32,17 +32,17 @@ import java.util.concurrent.Executors
 
 class HomeFragment : Fragment() {
 
-    // inisiasi variabel yang digunakan
+    // Inisialisasi variabel untuk mengikat tampilan XML
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var itemAdapter: FilmUserAdapter
-    // inisiasi araylist film user data
-    private var itemList: ArrayList<FilmUserData> = ArrayList<FilmUserData>()
-    private lateinit var recyclerViewItem: RecyclerView
+    private lateinit var itemAdapter: FilmUserAdapter // Adapter untuk mengisi RecyclerView
+    private var itemList: ArrayList<FilmUserData> = ArrayList<FilmUserData>() // Daftar untuk menyimpan data film user
+    private lateinit var recyclerViewItem: RecyclerView // Variabel untuk RecyclerView
 
+    // Firebase database dan autentikasi
     private lateinit var database: DatabaseReference
-    private lateinit var mAuth : FirebaseAuth
+    private lateinit var mAuth: FirebaseAuth
 
-    //Room
+    // Room Database
     private lateinit var mLocalDao: LocalDao
     private lateinit var executorService: ExecutorService
 
@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate layout
+        // Mengikat tampilan dengan View Binding
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,58 +58,52 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // inisiasi firebaseauth
+        // Inisialisasi autentikasi Firebase
         mAuth = Firebase.auth
         val currentUser = mAuth.currentUser!!.email
 
-        // inisiasilisasi room database
+        // Inisialisasi Room database dan DAO
         executorService = Executors.newSingleThreadExecutor()
         val db = LocalRoomDatabase.getDatabase(requireContext())
         mLocalDao = db!!.localDao()!!
 
-        // cek ketersediaan internet dan ambil data
+        // Cek ketersediaan koneksi internet sebelum mengambil data dari server atau database lokal
         if (isInternetAvailable(requireActivity())) {
             fetchData()
-//            fetchDataOffline()
-
             Toast.makeText(requireActivity(), "Establishing Connection", Toast.LENGTH_SHORT).show()
-        }else{
+        } else {
             fetchDataOffline()
             Toast.makeText(requireActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show()
         }
 
-        // set username dari email pengguna
+        // Mengatur username untuk ditampilkan di tampilan dari email pengguna yang sedang aktif
         binding.getUsername.setText(currentUser!!.substringBefore('@').toString())
 
-        // inisialisasi recyclerview dan adapter
+        // Mengatur RecyclerView untuk menampilkan data dalam bentuk daftar
         recyclerViewItem = binding.rvFilm
         recyclerViewItem.setHasFixedSize(true)
 
-        // menggunakan GridLayoutManager dengan jumlah rentang 2 untuk dua kolom
+        // Menggunakan GridLayoutManager untuk menampilkan daftar dalam dua kolom
         recyclerViewItem.layoutManager = GridLayoutManager(requireContext(), 2)
 
-//        itemList = arrayListOf()
+        // Mengatur adapter dengan daftar kosong dan konteks
         itemAdapter = FilmUserAdapter(itemList, requireContext())
         recyclerViewItem.adapter = itemAdapter
-
     }
 
-
-    // function
-    // fungsi untuk mereset isi tabel di database lokal
+    // Fungsi untuk membersihkan tabel lokal dari Room Database
     private fun truncateTable() {
         executorService.execute { mLocalDao.truncateTable() }
     }
 
-    // fungsi untuk menyisipkan data ke dalam database lokal
+    // Fungsi untuk menyisipkan data ke database lokal
     private fun insert(local: Local) {
         executorService.execute { mLocalDao.insert(local) }
     }
 
-    // fungsi untuk memerika ketersediaan internet
+    // Fungsi untuk mengecek koneksi internet dengan melihat kemampuan jaringan
     private fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
         val network = connectivityManager.activeNetwork
         val capabilities = connectivityManager.getNetworkCapabilities(network)
 
@@ -118,12 +112,12 @@ class HomeFragment : Fragment() {
                         capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
     }
 
-    // fungsi untuk mengambil data dari firebase
+    // Fungsi untuk mengambil data dari server menggunakan Retrofit API
     private fun fetchData() {
         ApiClient.api.getMovies().enqueue(object : Callback<List<FilmUserData>> {
             override fun onResponse(call: Call<List<FilmUserData>>, response: Response<List<FilmUserData>>) {
                 if (response.isSuccessful) {
-                    System.out.println("movies: =====");
+                    System.out.println("movies: =====")
                     System.out.println(response.body())
 
                     response.body()?.forEach { filmUser ->
@@ -136,31 +130,24 @@ class HomeFragment : Fragment() {
                             sinopsis = filmUser.sinopsis,
                             imageUrl = filmUser.imageUrl
                         )
-                        itemList.add(local)
+                        itemList.add(local) // Menambahkan data ke daftar
                     }
 
-                    itemAdapter.notifyDataSetChanged()
+                    itemAdapter.notifyDataSetChanged() // Memperbarui tampilan dengan data baru
                 } else {
-                    System.out.println("failed not isSuccessful");
-
+                    System.out.println("failed not isSuccessful")
                 }
             }
 
             override fun onFailure(call: Call<List<FilmUserData>>, t: Throwable) {
-                System.out.println("failed onFailure");
-                System.out.println("Error: ${t.message}");
-
+                System.out.println("failed onFailure")
+                System.out.println("Error: ${t.message}") // Log error jika gagal mengambil data
             }
-        });
-
+        })
     }
 
-    // fungsi untuk mengambil data dari database lokal jika tidak ada koneksi internet
+    // Fungsi untuk mengambil data dari database lokal jika tidak ada koneksi internet
     private fun fetchDataOffline() {
-
-        // mengosongkan daftar film
-        itemList.clear()
-
+        itemList.clear() // Mengosongkan daftar sementara
     }
-
 }

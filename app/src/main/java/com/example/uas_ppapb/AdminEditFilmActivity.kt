@@ -13,48 +13,54 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// Aktivitas untuk mengedit data film oleh admin
 class AdminEditFilmActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAdminEditFilmBinding
 
-    // Data yang dikirim dari halaman sebelumnya
+    // Variabel untuk menyimpan ID film yang akan diedit
     private var movieId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Mengikat tampilan dengan View Binding
         binding = ActivityAdminEditFilmBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ambil data dari intent sebelumnya
-        movieId = intent.getStringExtra("id")
+        // Mengambil data dari intent sebelumnya
+        movieId = intent.getStringExtra("id") // Mendapatkan ID film dari intent
+        movieId = intent.getStringExtra("_id") // ID tambahan dari intent sebelumnya
 
-        // Isi data awal dari intent
-        movieId=intent.getStringExtra("_id") //add_id
-        binding.txtTitleEdit.setText(intent.getStringExtra("title"))
-        binding.txtDirectorEdit.setText(intent.getStringExtra("director"))
-        binding.txtDurasiEdit.setText(intent.getStringExtra("durasi"))
-        binding.txtRatingEdit.setText(intent.getStringExtra("rating"))
-        binding.txtSinopsisEdit.setText(intent.getStringExtra("sinopsis"))
+        // Mengisi data awal pada form dengan data dari intent
+        binding.txtTitleEdit.setText(intent.getStringExtra("title")) // Mengisi judul film
+        binding.txtDirectorEdit.setText(intent.getStringExtra("director")) // Mengisi nama sutradara
+        binding.txtDurasiEdit.setText(intent.getStringExtra("durasi")) // Mengisi durasi film
+        binding.txtRatingEdit.setText(intent.getStringExtra("rating")) // Mengisi rating film
+        binding.txtSinopsisEdit.setText(intent.getStringExtra("sinopsis")) // Mengisi sinopsis film
 
-        // Tombol untuk meng-update data film
+        // Tombol untuk meng-update data film ketika ditekan
         binding.btnUpdate.setOnClickListener {
             updateFilmData()
         }
 
-        // Tombol kembali ke HomeAdminActivity
+        // Tombol untuk kembali ke halaman HomeAdminActivity
         binding.buttonBack.setOnClickListener {
             navigateToHome()
         }
     }
 
+    // Fungsi untuk berpindah ke halaman HomeAdminActivity
     private fun navigateToHome() {
-        val intent = Intent(this, HomeAdminActivity::class.java)
-        startActivity(intent)
-        finish()
+        val intent = Intent(this, HomeAdminActivity::class.java) // Membuat intent untuk berpindah aktivitas
+        startActivity(intent) // Memulai aktivitas baru
+        finish() // Menutup aktivitas saat ini
     }
 
+    // Fungsi untuk mengupdate data film melalui API
     private fun updateFilmData() {
-        lifecycleScope.launch {
+        lifecycleScope.launch { // Menggunakan lifecycleScope untuk menjalankan coroutine yang terkait dengan siklus hidup aktivitas ini
             try {
+                // Mengambil data yang diinputkan oleh pengguna dari form
                 val updatedTitle = binding.txtTitleEdit.text.toString()
                 val updatedDirector = binding.txtDirectorEdit.text.toString()
                 val updatedDurasi = binding.txtDurasiEdit.text.toString()
@@ -62,9 +68,9 @@ class AdminEditFilmActivity : AppCompatActivity() {
                 val updatedSinopsis = binding.txtSinopsisEdit.text.toString()
                 val updatedImageUrl = binding.txtImageEdit.text.toString()
 
-                // Membuat data film baru
+                // Membuat objek data film dengan data yang diperbarui
                 val filmData = FilmUserData(
-                    _id = movieId,
+                    _id = movieId, // ID film yang akan diperbarui
                     title = updatedTitle,
                     director = updatedDirector,
                     durasi = updatedDurasi,
@@ -73,19 +79,21 @@ class AdminEditFilmActivity : AppCompatActivity() {
                     imageUrl = updatedImageUrl
                 )
 
-                // Memanggil API
+                // Memanggil API untuk memperbarui data film dengan menggunakan coroutine di thread latar belakang
                 val response = withContext(Dispatchers.IO) {
-                    ApiClient.api.updateMovie(movieId!!, filmData)
+                    ApiClient.api.updateMovie(movieId!!, filmData) // Memanggil metode updateMovie dari API
                 }
 
+                // Memeriksa apakah respons dari server berhasil
                 if (response.isSuccessful) {
                     Toast.makeText(this@AdminEditFilmActivity, "Film berhasil diperbarui!", Toast.LENGTH_SHORT).show()
-                    navigateToHome()
+                    navigateToHome() // Jika berhasil, berpindah ke halaman HomeAdminActivity
                 } else {
                     Toast.makeText(this@AdminEditFilmActivity, "Gagal memperbarui film", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Log.e("Update Error", "Gagal memperbarui data", e)
+                // Menangani kesalahan yang mungkin terjadi saat memanggil API
+                Log.e("Update Error", "Gagal memperbarui data", e) // Mencetak log kesalahan
                 Toast.makeText(this@AdminEditFilmActivity, "Terjadi kesalahan!", Toast.LENGTH_SHORT).show()
             }
         }
