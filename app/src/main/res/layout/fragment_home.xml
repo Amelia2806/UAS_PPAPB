@@ -41,15 +41,6 @@
             android:layout_marginLeft="20dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Movie"
-                android:textColor="@color/black"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:fontFamily="@font/mmedium"/>
-
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
