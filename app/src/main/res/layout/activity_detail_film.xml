@@ -134,14 +134,6 @@
             android:textColor="@color/black"
             android:textSize="17dp" />
 
-        <ImageButton
-            android:id="@+id/imageButtonFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="100dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Favorite"
-            android:src="@drawable/baseline_favorite_border_24" />
       </LinearLayout>
 
       <LinearLayout
@@ -172,7 +164,7 @@
           android:layout_marginTop="30dp"
           android:layout_marginRight="5dp"
           android:fontFamily="@font/mmedium"
-          android:text="Storyline"
+          android:text="Sinopsis"
           android:textColor="@color/black"
           android:textSize="21sp"></TextView>
 

@@ -3,8 +3,6 @@ package com.example.uas_ppapb
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.uas_ppapb.HomeFragment
-import com.example.uas_ppapb.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // `BottomNavigationActivity` adalah kelas yang mengelola aktivitas utama dengan tata letak bottom navigation

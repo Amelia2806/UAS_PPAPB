@@ -20,4 +20,13 @@ interface LocalDao {
 
     @Query("SELECT * FROM local_table")
     fun allPostsLocal(): LiveData<List<Local>>
+
+    @Query("SELECT * FROM local_table ORDER BY id DESC")
+    fun allLocal(): List<Local>
+
+    @Query("SELECT * FROM local_table WHERE id= :id")
+    fun getFilmById(id: String?): Local
+
+    @Query("DELETE FROM local_table WHERE id= :id")
+    fun delete(id: String?)
 }

@@ -71,6 +71,13 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/baseline_star_24" />
+
+                    <ImageButton
+                        android:id="@+id/btnFavorite"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/baseline_favorite_border_24"/>
                 </LinearLayout>
 
             </LinearLayout>

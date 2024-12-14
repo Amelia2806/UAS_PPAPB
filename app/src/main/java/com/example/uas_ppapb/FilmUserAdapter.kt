@@ -1,58 +1,121 @@
 package com.example.uas_ppapb
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.uas_ppapb.database.FilmFavorite
+import com.example.uas_ppapb.database.FilmFavoriteDao
+import com.example.uas_ppapb.database.Local
+import com.example.uas_ppapb.database.LocalRoomDatabase
 import com.example.uas_ppapb.model.FilmUserData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// adapter `FilmUserAdapter` digunakan untuk menghubungkan data film pada bagian pengguna (user) dengan tampilan RecyclerView
-// data film ditampilkan dalam item_film.xml, dan setiap item menampilkan judul dan gambar film
-// adapter juga menangani klik pada setiap item, sehingga ketika pengguna mengklik suatu film
-// akan diarahkan ke DetailFilmActivity dengan membawa informasi detail film
+// Adapter untuk menampilkan data film di RecyclerView
+class FilmUserAdapter(
+    private val filmUserList: List<FilmUserData>,
+    private val context: Context
+) : RecyclerView.Adapter<FilmUserAdapter.FilmUserViewHolder>() {
 
-class FilmUserAdapter(private val filmUserList: ArrayList<FilmUserData>) : RecyclerView.Adapter<FilmUserAdapter.FilmUserViewHolder>() {
-
-    // ViewHolder berfungsi untuk merepresentasikan setiap item dalam RecyclerView
-    class FilmUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    // ViewHolder merepresentasikan setiap item dalam RecyclerView
+    inner class FilmUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleUser: TextView = itemView.findViewById(R.id.judul_film_user)
         val imageUser: ImageView = itemView.findViewById(R.id.image_film_user)
+        val btnFavorite: ImageButton = itemView.findViewById(R.id.btnFavorite)
     }
 
-    // onCreateViewHolder digunakan untuk membuat instance dari ViewHolder
+    // Membuat instance ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmUserViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_film, parent, false)
         return FilmUserViewHolder(itemView)
     }
 
-    // onBindViewHolder menghubungkan data film dengan ViewHolder untuk setiap item
+    // Menghubungkan data dengan ViewHolder
     override fun onBindViewHolder(holder: FilmUserViewHolder, position: Int) {
         val currentItem = filmUserList[position]
-        holder.titleUser.text = currentItem.title
 
-        // menggunakan Glide untuk memuat gambar dari URL ke dalam ImageView
-        Glide.with(holder.itemView.context)
+        // Menampilkan judul dan gambar menggunakan Glide
+        holder.titleUser.text = currentItem.title
+        Glide.with(context)
             .load(currentItem.imageUrl)
             .into(holder.imageUser)
 
-        // menangani klik pada setiap item, mengarahkan pengguna ke DetailFilmActivity dengan membawa informasi detail film
-        holder.itemView.setOnClickListener{
-            val intent = Intent(holder.itemView.context,DetailFilmActivity::class.java)
-            intent.putExtra("judul",currentItem.title)
-            intent.putExtra("director",currentItem.director)
-            intent.putExtra("durasi",currentItem.durasi)
-            intent.putExtra("rating",currentItem.rating)
-            intent.putExtra("deskripsi",currentItem.sinopsis)
-            intent.putExtra("imageUrl",currentItem.imageUrl)
-            holder.itemView.context.startActivity(intent)
+        // Menangani klik pada item untuk membuka DetailFilmActivity
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailFilmActivity::class.java).apply {
+                putExtra("judul", currentItem.title)
+                putExtra("director", currentItem.director)
+                putExtra("durasi", currentItem.durasi)
+                putExtra("rating", currentItem.rating)
+                putExtra("deskripsi", currentItem.sinopsis)
+                putExtra("imageUrl", currentItem.imageUrl)
+            }
+            context.startActivity(intent)
+        }
+
+        // Memeriksa apakah film sudah ada di favorit
+        isFavorite(currentItem._id) { isFav ->
+            holder.btnFavorite.setImageResource(
+                if (isFav) R.drawable.favorite
+                else R.drawable.baseline_favorite_border_24
+            )
+        }
+
+        // Menangani klik tombol favorit
+        holder.btnFavorite.setOnClickListener {
+            toggleFavorite(currentItem) { isFav ->
+                holder.btnFavorite.setImageResource(
+                    if (isFav) R.drawable.baseline_favorite_border_24
+                    else R.drawable.baseline_favorite_border_24
+                )
+            }
         }
     }
 
-    // getItemCount mengembalikan jumlah total item dalam RecyclerView
-    override fun getItemCount() = filmUserList.size
+    // Mendapatkan jumlah item dalam RecyclerView
+    override fun getItemCount(): Int = filmUserList.size
+
+    // Fungsi untuk memeriksa apakah film sudah ada di favorit
+    private fun isFavorite(_id: String?, callback: (Boolean) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = LocalRoomDatabase.getDatabase(context)?.localDao()
+            val isFav = db?.getFilmById(_id) != null
+            withContext(Dispatchers.Main) {
+                callback(isFav)
+            }
+        }
+    }
+
+    // Fungsi untuk menambah atau menghapus film dari favorit
+    private fun toggleFavorite(film: FilmUserData, callback: (Boolean) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val db = LocalRoomDatabase.getDatabase(context)?.filmFavoriteDao()
+            val filmFavorite = FilmFavorite(
+                filmId = film._id.toString()
+            )
+
+            val isFav = db?.getFilmById(film._id) != null
+            System.out.println("--------------")
+            System.out.println(isFav)
+            if (isFav) {
+                db?.delete(film._id)
+            } else {
+                db?.insert(filmFavorite)
+                System.out.println(db?.allLocal())
+            }
+            withContext(Dispatchers.Main) {
+                callback(!isFav)
+            }
+        }
+    }
 }

@@ -88,8 +88,8 @@ class HomeFragment : Fragment() {
         // menggunakan GridLayoutManager dengan jumlah rentang 2 untuk dua kolom
         recyclerViewItem.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        itemList = arrayListOf()
-        itemAdapter = FilmUserAdapter(itemList)
+//        itemList = arrayListOf()
+        itemAdapter = FilmUserAdapter(itemList, requireContext())
         recyclerViewItem.adapter = itemAdapter
 
     }
@@ -206,22 +206,22 @@ class HomeFragment : Fragment() {
         itemList.clear()
 
         // mengambil data dari database lokal menggunakan Room
-        mLocalDao.allPostsLocal().observe(requireActivity()) {movies ->
-            for (movie in movies){
-                // menambahkan data ke daftar film
-                val local = FilmUserData(
-                    title = movie.judulFilm,
-                    director = movie.directorFilm,
-                    durasi = movie.durasiFilm,
-                    rating = movie.ratingFilm,
-                    sinopsis = movie.sinopsisFilm,
-                    imageUrl = movie.imgFilm
-                )
-                itemList.add(local)
-            }
-            // memberitahu adapter bahwa data telah berubah
-            itemAdapter.notifyDataSetChanged()
-        }
+//        mLocalDao.allPostsLocal().observe(requireActivity()) {movies ->
+//            for (movie in movies){
+//                // menambahkan data ke daftar film
+//                val local = FilmUserData(
+//                    title = movie.judulFilm,
+//                    director = movie.directorFilm,
+//                    durasi = movie.durasiFilm,
+//                    rating = movie.ratingFilm,
+//                    sinopsis = movie.sinopsisFilm,
+//                    imageUrl = movie.imgFilm
+//                )
+//                itemList.add(local)
+//            }
+//            // memberitahu adapter bahwa data telah berubah
+//            itemAdapter.notifyDataSetChanged()
+//        }
     }
 
 }
